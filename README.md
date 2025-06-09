@@ -6,7 +6,7 @@ for this purpose. If all values are available, the handler stored in the
 function pointer `calculated` is called. After the handler has been called in
 the add function, this function is exited with the return value `true`.
 
-<img src="./readme_misc/signal_flow.svg" alt="The rms function signal plan." width="600"> 
+<img src="./docs/signal_flow.svg" alt="The rms function signal plan." width="600"> 
 
 The code can be used as follows:
 

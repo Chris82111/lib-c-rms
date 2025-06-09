@@ -334,18 +334,6 @@ static uint8_t rms16_test_sin_calculation(void)
  *  public:  functions
  *---------------------------------------------------------------------*/
 
-/*
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-extern void rms16_test(void);
-
-#ifdef __cplusplus
-}
-#endif
-*/
-
 void rms16_test(void)
 {
     run_example();
