@@ -1,4 +1,7 @@
 //! @file
+//! @brief The rms16 header file.
+//!
+//! @details The module can be used in C and C++.
 
 #ifndef INC_RMS16_H_
 #define INC_RMS16_H_
@@ -21,8 +24,7 @@ extern "C" {
  *  public: define
  *---------------------------------------------------------------------*/
 
-//! @brief This macro initializes rms16 struct.
-//!
+//! @brief This macro initializes rms16 struct
 #define RMS16_INIT(LENGTH, LENGTH_RECIPROCAL)     \
 {                                                 \
     /* .rms               */ (0.0),               \
@@ -44,46 +46,43 @@ extern "C" {
 //! @brief Forward declaration
 struct rms16_s;
 
-//! @brief Prototype of `rms16_t`, for information see `rms16_s`
-//!
+//! @brief Forward typedef, for information see ::rms16_s
 typedef struct rms16_s rms16_t;
 
-//! @brief Function pointer as a handler that is called, see `rms16_t.calculated`
-//! @param[in,out] object The RMS object
+//! @brief Function pointer as a handler that is called, see ::rms16_s.on_calculated
 //!
+//! @param[in,out] object The RMS object
 typedef void (*rms16_handler_t)(rms16_t * object);
 
 //! @brief The object data of the RMS object
-//!
 typedef struct rms16_s
 {
-
-    //! RMS value is updated before `calculated` is called.
-    //! `rms = sqrt(rms_alternating * rms_alternating + mean * mean);`
+    //! @brief RMS value is updated before ::rms16_s::on_calculated is called.
+    //! @details `rms = sqrt(rms_alternating * rms_alternating + mean * mean);`
     double rms;
 
-    //! Mean or DC component;
+    //! @brief Mean or DC component;
     double mean;
 
-    //! RMS of the alternating component
+    //! @brief RMS of the alternating component
     double rms_alternating;
 
-    //! Sum value
+    //! @brief Sum value
     int64_t sum;
 
-    //! Sum of the square value
+    //! @brief Sum of the square value
     uint64_t sum_square;
 
-    //! Number of measured values
+    //! @brief Number of measured values
     uint32_t length;
 
-    //! Reciprocal value of the length
+    //! @brief Reciprocal value of the length
     double length_reciprocal;
 
-    //! Index of the input values
+    //! @brief Index of the input values
     uint32_t index;
 
-    //! Function that is called after the last value is added
+    //! @brief Function that is called after the last value is added
     rms16_handler_t on_calculated;
 
 }rms16_t;
@@ -96,22 +95,47 @@ typedef struct rms16_s
  *  public: function prototypes
  *---------------------------------------------------------------------*/
 
+//! @brief This function initializes rms16 struct
+//!
+//! @param[in,out] object The RMS object
+//!
+//! @param length Number of elements after the RMS value is calculated
+//! @param length_reciprocal Reciprocal of the number of elements
 void rms16_init(rms16_t * object, uint32_t length, double length_reciprocal);
+
+//! @brief Resets the RMS struct
+//!
+//! @param[in,out] object The RMS object
 void rms16_clear(rms16_t * object);
+
+//! @brief Adds a new measured value, unsigned
+//!
+//! @param[in,out] object The RMS object
+//! @param value A new measured value
+//! @retval true  if all elements have been read
+//! @retval false if elements must be read
 bool rms16u_add(rms16_t * object, uint16_t value);
+
+//! @brief Adds a new measured value, signed
+//!
+//! @param[in,out] object The RMS object
+//! @param value A new measured value
+//! @retval true  if all elements have been read
+//! @retval false if elements must be read
 bool rms16i_add(rms16_t * object, int16_t value);
 
 
 /*---------------------------------------------------------------------*
  *  public: static inline functions
  *---------------------------------------------------------------------*/
-/*---------------------------------------------------------------------*
- *  eof
- *---------------------------------------------------------------------*/
-
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* INC_RMS16_H_ */
+
+
+/*---------------------------------------------------------------------*
+ *  eof
+ *---------------------------------------------------------------------*/
