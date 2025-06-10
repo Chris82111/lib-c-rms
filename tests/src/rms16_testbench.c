@@ -308,25 +308,26 @@ static uint8_t rms16_test_max_length(void)
     return errors;
 }
 
-static uint8_t rms16_test_sin_calculation(void)
+static void rms16_test_sin_calculation(void)
 {
     double rms, rms_alternating, mean;
 
     // 1.65 V DC + 1 V * sqrt(2) * sin( t / 20 ms * 2 * PI ) (@ 4096)
-   uint16_t input[20] = { 2048, 2590, 3080, 3468, 3717, 3803, 3717, 3468, 3080, 2590, 2048, 1506, 1016, 628, 379, 293, 379, 628, 1016, 1506 };
+    uint16_t input[20] = { 2048, 2590, 3080, 3468, 3717, 3803, 3717, 3468, 3080, 2590, 2048, 1506, 1016, 628, 379, 293, 379, 628, 1016, 1506 };
 
-   rms16_t rms_object = RMS16_INIT(20, 1.0 / 20.0 );
+    rms16_t rms_object = RMS16_INIT(20, 1.0 / 20.0 );
 
-   for(uint16_t i = 0; i < (sizeof(input) / sizeof(input[0])); i++)
-   {
-       if(rms16u_add(&rms_object, input[i]))
-       {
+    for(uint16_t i = 0; i < (sizeof(input) / sizeof(input[0])); i++)
+    {
+        if(rms16u_add(&rms_object, input[i]))
+        {
+            rms = rms_object.rms;
+            rms_alternating = rms_object.rms_alternating;
+            mean = rms_object.mean;
+        }
+    }
 
-           rms = rms_object.rms;
-           rms_alternating = rms_object.rms_alternating;
-           mean = rms_object.mean;
-       }
-   }
+    if(0 == rms || 0 == rms_alternating || 0 == mean){ ; }
 }
 
 

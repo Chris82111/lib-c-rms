@@ -59,7 +59,7 @@ bool rms16i_add(rms16_t * object, int16_t value)
     uint64_t sum_square = object->sum_square;
 
     sum = sum + value;
-    sum_square = sum_square + ((uint32_t)value * value);
+    sum_square = sum_square + (uint32_t)((int32_t)value * value);
 
     index = index + 1;
 
@@ -68,8 +68,8 @@ bool rms16i_add(rms16_t * object, int16_t value)
     if(overflow)
     {
         double length_reciprocal = object->length_reciprocal;
-        double mean = sum * length_reciprocal;
-        double mean_square = sum_square * length_reciprocal;
+        double mean = (double)sum * length_reciprocal;
+        double mean_square = (double)sum_square * length_reciprocal;
         double alternating_square = mean_square - mean * mean;
 
         object->rms = sqrt(mean_square);
@@ -115,8 +115,8 @@ bool rms16u_add(rms16_t * object, uint16_t value)
     if(overflow)
     {
         double length_reciprocal = object->length_reciprocal;
-        double mean = sum * length_reciprocal;
-        double mean_square = sum_square * length_reciprocal;
+        double mean = (double)sum * length_reciprocal;
+        double mean_square = (double)sum_square * length_reciprocal;
         double alternating_square = mean_square - mean * mean;
 
         object->rms = sqrt(mean_square);
