@@ -39,7 +39,7 @@ void rms16_init(rms16_t * object, uint32_t length, double length_reciprocal)
     object->length = length;
     object->length_reciprocal = length_reciprocal;
     object->index = 0;
-    object->calculated = 0;
+    object->on_calculated = NULL;
 }
 
 void rms16_clear(rms16_t * object)
@@ -88,8 +88,7 @@ bool rms16i_add(rms16_t * object, int16_t value)
         sum = 0;
         sum_square = 0;
 
-        rms16_handler_t calculated =  object->calculated;
-        if(NULL != calculated) { calculated(object); }
+        if(object->on_calculated) { object->on_calculated(object); }
     }
 
     object->index = index;
@@ -135,8 +134,7 @@ bool rms16u_add(rms16_t * object, uint16_t value)
         sum = 0;
         sum_square = 0;
 
-        rms16_handler_t calculated =  object->calculated;
-        if(NULL != calculated) { calculated(object); }
+        if(object->on_calculated) { object->on_calculated(object); }
     }
 
     object->index = index;

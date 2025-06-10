@@ -102,7 +102,7 @@ static uint8_t rms16_test_init_initialize(void)
     {
         errors++;
     }
-    if( 0 != rms.calculated )
+    if( NULL != rms.on_calculated )
     {
         errors++;
     }
@@ -150,7 +150,7 @@ static uint8_t rms16_test_init(void)
     {
         errors++;
     }
-    if( 0 != rms.calculated )
+    if( NULL != rms.on_calculated )
     {
         errors++;
     }
@@ -173,9 +173,9 @@ static uint8_t rms16_test_handler_test(void)
     rms16_t * ptr = &rms;
     rms16_init(ptr, 4, 0.25);
 
-    rms.calculated = rms16_test_handler;
+    rms.on_calculated = rms16_test_handler;
 
-    if( rms16_test_handler != rms.calculated )
+    if( rms16_test_handler != rms.on_calculated )
     {
         errors++;
     }
@@ -272,7 +272,7 @@ static uint8_t rms16_test_max_length(void)
 
     rms16_t rms;
     rms16_t * ptr = &rms;
-    rms.calculated = rms16_test_handler;
+    rms.on_calculated = rms16_test_handler;
 
     rms16_init(ptr, 0, 1.0 / ( UINT64_C(1) << 32 ));
 

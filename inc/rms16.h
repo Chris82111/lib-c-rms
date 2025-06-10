@@ -14,6 +14,7 @@ extern "C" {
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 
 /*---------------------------------------------------------------------*
@@ -22,23 +23,26 @@ extern "C" {
 
 //! @brief This macro initializes rms16 struct.
 //!
-#define RMS16_INIT(LENGTH, LENGTH_RECIPROCAL)      \
-{                                                  \
-    /* .rms               */ (0.0),                \
-    /* .mean              */ (0.0),                \
-    /* .rms_alternating   */ (0.0),                \
-    /* .sum               */ (0),                  \
-    /* .sum_square        */ (0),                  \
-    /* .length            */ (LENGTH),             \
-    /* .length_reciprocal */ (LENGTH_RECIPROCAL),  \
-    /* .index             */ (0),                  \
-    /* .calculated        */ (0),                  \
+#define RMS16_INIT(LENGTH, LENGTH_RECIPROCAL)     \
+{                                                 \
+    /* .rms               */ (0.0),               \
+    /* .mean              */ (0.0),               \
+    /* .rms_alternating   */ (0.0),               \
+    /* .sum               */ (0),                 \
+    /* .sum_square        */ (0),                 \
+    /* .length            */ (LENGTH),            \
+    /* .length_reciprocal */ (LENGTH_RECIPROCAL), \
+    /* .index             */ (0),                 \
+    /* .on_calculated     */ (NULL),              \
 }
 
 
 /*---------------------------------------------------------------------*
  *  public: typedefs
  *---------------------------------------------------------------------*/
+
+//! @brief Forward declaration
+struct rms16_s;
 
 //! @brief Prototype of `rms16_t`, for information see `rms16_s`
 //!
@@ -80,7 +84,7 @@ typedef struct rms16_s
     uint32_t index;
 
     //! Function that is called after the last value is added
-    rms16_handler_t calculated;
+    rms16_handler_t on_calculated;
 
 }rms16_t;
 
