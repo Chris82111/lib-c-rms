@@ -56,7 +56,7 @@ void rms16_clear(rms16_t * object)
     object->index = 0;
 }
 
-bool rms16i_add(rms16_t * object, int16_t value)
+bool rms16_add_signed(rms16_t * object, int16_t value)
 {
     uint32_t index = object->index;
     int64_t sum = object->sum;
@@ -102,7 +102,7 @@ bool rms16i_add(rms16_t * object, int16_t value)
     return overflow;
 }
 
-bool rms16u_add(rms16_t * object, uint16_t value)
+bool rms16_add_unsigned(rms16_t * object, uint16_t value)
 {
     uint32_t index = object->index;
     int64_t sum = object->sum;

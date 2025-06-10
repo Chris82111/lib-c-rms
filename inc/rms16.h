@@ -114,7 +114,7 @@ void rms16_clear(rms16_t * object);
 //! @param value A new measured value
 //! @retval true  if all elements have been read
 //! @retval false if elements must be read
-bool rms16u_add(rms16_t * object, uint16_t value);
+bool rms16_add_unsigned(rms16_t * object, uint16_t value);
 
 //! @brief Adds a new measured value, signed
 //!
@@ -122,7 +122,7 @@ bool rms16u_add(rms16_t * object, uint16_t value);
 //! @param value A new measured value
 //! @retval true  if all elements have been read
 //! @retval false if elements must be read
-bool rms16i_add(rms16_t * object, int16_t value);
+bool rms16_add_signed(rms16_t * object, int16_t value);
 
 
 /*---------------------------------------------------------------------*

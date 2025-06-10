@@ -51,7 +51,7 @@ static void run_example(void)
 
     for(uint8_t i = 0; i < rms_object.length; i++)
     {
-        if(rms16u_add(&rms_object, input_data[i]))
+        if(rms16_add_unsigned(&rms_object, input_data[i]))
         {
             rms = rms_object.rms; // 1.5811388...
             rms_alternating = rms_object.rms_alternating; // 0.5
@@ -180,10 +180,10 @@ static uint8_t rms16_test_handler_test(void)
         errors++;
     }
 
-    rms16u_add(ptr, 1);
-    rms16u_add(ptr, 2);
-    rms16u_add(ptr, 3);
-    rms16u_add(ptr, 4);
+    rms16_add_unsigned(ptr, 1);
+    rms16_add_unsigned(ptr, 2);
+    rms16_add_unsigned(ptr, 3);
+    rms16_add_unsigned(ptr, 4);
 
     if( 5 != rms.length )
     {
@@ -201,21 +201,21 @@ static uint8_t rms16_test_calculation(void)
     rms16_t * ptr = &rms;
 
     rms16_init(ptr, 4, 0.25);
-    rms16u_add(ptr, 1);
-    rms16u_add(ptr, 2);
-    rms16u_add(ptr, 3);
-    rms16u_add(ptr, 4);
+    rms16_add_unsigned(ptr, 1);
+    rms16_add_unsigned(ptr, 2);
+    rms16_add_unsigned(ptr, 3);
+    rms16_add_unsigned(ptr, 4);
     if( 2.7386127875258306 != rms.rms )
     {
         errors++;
     }
 
     rms16_init(ptr, 5, 0.2);
-    rms16u_add(ptr, 1);
-    rms16u_add(ptr, 2);
-    rms16u_add(ptr, 3);
-    rms16u_add(ptr, 4);
-    rms16u_add(ptr, 5);
+    rms16_add_unsigned(ptr, 1);
+    rms16_add_unsigned(ptr, 2);
+    rms16_add_unsigned(ptr, 3);
+    rms16_add_unsigned(ptr, 4);
+    rms16_add_unsigned(ptr, 5);
     if( 3.3166247903553998 != rms.rms )
     {
         errors++;
@@ -223,12 +223,12 @@ static uint8_t rms16_test_calculation(void)
 
     rms16_t rms_offset;
     rms16_init(&rms_offset, 6, 1.0/6.0);
-    rms16u_add(&rms_offset, 1);
-    rms16u_add(&rms_offset, 2);
-    rms16u_add(&rms_offset, 3);
-    rms16u_add(&rms_offset, 3);
-    rms16u_add(&rms_offset, 2);
-    rms16u_add(&rms_offset, 1);
+    rms16_add_unsigned(&rms_offset, 1);
+    rms16_add_unsigned(&rms_offset, 2);
+    rms16_add_unsigned(&rms_offset, 3);
+    rms16_add_unsigned(&rms_offset, 3);
+    rms16_add_unsigned(&rms_offset, 2);
+    rms16_add_unsigned(&rms_offset, 1);
     if( 2.1602468994692865 != rms_offset.rms )
     {
         errors++;
@@ -244,12 +244,12 @@ static uint8_t rms16_test_calculation(void)
 
     rms16_t rms_ac;
     rms16_init(&rms_ac, 6, 1.0/6.0);
-    rms16i_add(&rms_ac, -1);
-    rms16i_add(&rms_ac, 0);
-    rms16i_add(&rms_ac, 1);
-    rms16i_add(&rms_ac, 1);
-    rms16i_add(&rms_ac, 0);
-    rms16i_add(&rms_ac, -1);
+    rms16_add_signed(&rms_ac, -1);
+    rms16_add_signed(&rms_ac, 0);
+    rms16_add_signed(&rms_ac, 1);
+    rms16_add_signed(&rms_ac, 1);
+    rms16_add_signed(&rms_ac, 0);
+    rms16_add_signed(&rms_ac, -1);
     if( 0.81649658092772603 != rms_ac.rms )
     {
         errors++;
@@ -278,22 +278,22 @@ static uint8_t rms16_test_max_length(void)
 
     for(uint32_t i = 0; i < UINT32_MAX/2; i++)
     {
-        rms16u_add(ptr, UINT16_MAX);
+        rms16_add_unsigned(ptr, UINT16_MAX);
     }
 
     for(uint32_t i = 0; i < UINT32_MAX/2; i++)
     {
-        rms16u_add(ptr, UINT16_MAX);
+        rms16_add_unsigned(ptr, UINT16_MAX);
     }
 
-    bool overflow = rms16u_add(ptr, UINT16_MAX);
+    bool overflow = rms16_add_unsigned(ptr, UINT16_MAX);
 
     if( true == overflow )
     {
         errors++;
     }
 
-    overflow = rms16u_add(ptr, UINT16_MAX);
+    overflow = rms16_add_unsigned(ptr, UINT16_MAX);
 
     if( false == overflow )
     {
@@ -319,7 +319,7 @@ static void rms16_test_sin_calculation(void)
 
     for(uint16_t i = 0; i < (sizeof(input) / sizeof(input[0])); i++)
     {
-        if(rms16u_add(&rms_object, input[i]))
+        if(rms16_add_unsigned(&rms_object, input[i]))
         {
             rms = rms_object.rms;
             rms_alternating = rms_object.rms_alternating;
