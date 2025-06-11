@@ -23,6 +23,16 @@
 /*---------------------------------------------------------------------*
  *  public:  variables
  *---------------------------------------------------------------------*/
+
+const struct rms16_sc rms16 =
+{
+    rms16_add_signed,
+    rms16_add_unsigned,
+    rms16_clear,
+    rms16_init,
+};
+
+
 /*---------------------------------------------------------------------*
  *  private: function prototypes
  *---------------------------------------------------------------------*/
@@ -32,29 +42,6 @@
 /*---------------------------------------------------------------------*
  *  public:  functions
  *---------------------------------------------------------------------*/
-
-void rms16_init(rms16_t * object, uint32_t length, double length_reciprocal)
-{
-    object->rms = 0.0;
-    object->mean = 0.0;
-    object->rms_alternating = 0.0;
-    object->sum = 0;
-    object->sum_square = 0;
-    object->length = length;
-    object->length_reciprocal = length_reciprocal;
-    object->index = 0;
-    object->on_calculated = NULL;
-}
-
-void rms16_clear(rms16_t * object)
-{
-    object->rms = 0.0;
-    object->mean = 0.0;
-    object->rms_alternating = 0.0;
-    object->sum = 0;
-    object->sum_square = 0;
-    object->index = 0;
-}
 
 bool rms16_add_signed(rms16_t * object, int16_t value)
 {
@@ -146,6 +133,29 @@ bool rms16_add_unsigned(rms16_t * object, uint16_t value)
     object->sum_square = sum_square;
 
     return overflow;
+}
+
+void rms16_clear(rms16_t * object)
+{
+    object->rms = 0.0;
+    object->mean = 0.0;
+    object->rms_alternating = 0.0;
+    object->sum = 0;
+    object->sum_square = 0;
+    object->index = 0;
+}
+
+void rms16_init(rms16_t * object, uint32_t length, double length_reciprocal)
+{
+    object->rms = 0.0;
+    object->mean = 0.0;
+    object->rms_alternating = 0.0;
+    object->sum = 0;
+    object->sum_square = 0;
+    object->length = length;
+    object->length_reciprocal = length_reciprocal;
+    object->index = 0;
+    object->on_calculated = NULL;
 }
 
 

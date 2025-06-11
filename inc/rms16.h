@@ -87,26 +87,41 @@ typedef struct rms16_s
 
 }rms16_t;
 
+//! @brief Represents a simplified form of a class
+//!
+//! @details The global variable ::rms16 can be used to easily
+//! access all matching functions with auto-completion.
+struct rms16_sc
+{
+    bool (*AddSigned) (rms16_t * object, int16_t value); ///< @see ::rms16_add_signed()
+    bool (*AddUnsigned) (rms16_t * object, uint16_t value); ///< @see ::rms16_add_unsigned()
+    void (*Clear) (rms16_t * object); ///< @see ::rms16_clear()
+    void (*Init) (rms16_t * object, uint32_t length, double length_reciprocal); ///< @see ::rms16_init()
+};
 
 /*---------------------------------------------------------------------*
  *  public: extern variables
  *---------------------------------------------------------------------*/
+
+//! @brief To access all member functions working with type ::rms16_s
+//!
+//! @details Allows a simplified class to easily access all member functions
+//! working with type ::rms16_s. The auto-completion function helps you
+//! to select all suitable functions via ::rms16_sc struct.
+extern const struct rms16_sc rms16;
+
+
 /*---------------------------------------------------------------------*
  *  public: function prototypes
  *---------------------------------------------------------------------*/
 
-//! @brief This function initializes rms16 struct
+//! @brief Adds a new measured value, signed
 //!
 //! @param[in,out] object The RMS object
-//!
-//! @param length Number of elements after the RMS value is calculated
-//! @param length_reciprocal Reciprocal of the number of elements
-void rms16_init(rms16_t * object, uint32_t length, double length_reciprocal);
-
-//! @brief Resets the RMS struct
-//!
-//! @param[in,out] object The RMS object
-void rms16_clear(rms16_t * object);
+//! @param value A new measured value
+//! @retval true  if all elements have been read
+//! @retval false if elements must be read
+bool rms16_add_signed(rms16_t * object, int16_t value);
 
 //! @brief Adds a new measured value, unsigned
 //!
@@ -116,13 +131,18 @@ void rms16_clear(rms16_t * object);
 //! @retval false if elements must be read
 bool rms16_add_unsigned(rms16_t * object, uint16_t value);
 
-//! @brief Adds a new measured value, signed
+//! @brief Resets the RMS struct
 //!
 //! @param[in,out] object The RMS object
-//! @param value A new measured value
-//! @retval true  if all elements have been read
-//! @retval false if elements must be read
-bool rms16_add_signed(rms16_t * object, int16_t value);
+void rms16_clear(rms16_t * object);
+
+//! @brief This function initializes rms16 struct
+//!
+//! @param[in,out] object The RMS object
+//!
+//! @param length Number of elements after the RMS value is calculated
+//! @param length_reciprocal Reciprocal of the number of elements
+void rms16_init(rms16_t * object, uint32_t length, double length_reciprocal);
 
 
 /*---------------------------------------------------------------------*

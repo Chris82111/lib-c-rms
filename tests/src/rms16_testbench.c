@@ -319,7 +319,7 @@ static void rms16_test_sin_calculation(void)
 
     for(uint16_t i = 0; i < (sizeof(input) / sizeof(input[0])); i++)
     {
-        if(rms16_add_unsigned(&rms_object, input[i]))
+        if(rms16.AddUnsigned(&rms_object, input[i]))
         {
             rms = rms_object.rms;
             rms_alternating = rms_object.rms_alternating;
