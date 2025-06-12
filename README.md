@@ -9,8 +9,10 @@ The RMS calculation is object-oriented and designed to be called with each new m
   <img
     alt="The rms function signal plan."
     src="./docs/signal_flow.svg"
-    width="600" />
+    width="800" />
 </picture>
+
+## Example
 
 The code can be used as follows:
 

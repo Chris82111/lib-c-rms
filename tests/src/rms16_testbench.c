@@ -10,6 +10,10 @@
 /*---------------------------------------------------------------------*
  *  private: definitions
  *---------------------------------------------------------------------*/
+
+#define ELEMENTS_OF(ARRAY) ( sizeof(ARRAY) / sizeof((ARRAY)[0]) )
+
+
 /*---------------------------------------------------------------------*
  *  private: typedefs
  *---------------------------------------------------------------------*/
@@ -311,11 +315,50 @@ static void rms16_test_sin_calculation(void)
     // 1.65 V DC + 1 V * sqrt(2) * sin( t / 20 ms * 2 * PI ) (@ 4096)
     uint16_t input[20] = { 2048, 2590, 3080, 3468, 3717, 3803, 3717, 3468, 3080, 2590, 2048, 1506, 1016, 628, 379, 293, 379, 628, 1016, 1506 };
 
-    rms16_t rms_object = RMS16_INIT(20, 1.0 / 20.0 );
+    rms16_t rms_object = RMS16_INIT(
+        ELEMENTS_OF(input),
+        1.0 / ELEMENTS_OF(input)
+    );
 
-    for(uint16_t i = 0; i < (sizeof(input) / sizeof(input[0])); i++)
+    for(uint16_t i = 0; i < rms_object.length; i++)
     {
         if(rms16.AddUnsigned(&rms_object, input[i]))
+        {
+            rms = rms_object.rms;
+            rms_alternating = rms_object.rms_alternating;
+            mean = rms_object.mean;
+        }
+    }
+
+    // 1.65 V DC + 1 V * sqrt(2) * sin( t * 60 Hz * 2 * PI ) (@ 4096)
+    uint16_t input_3_times_60_hz[] = { 2048, 2694, 3250, 3636, 3800, 3717, 3401, 2894, 2268, 1611, 1016, 566, 324, 324, 566, 1016, 1611, 2268, 2894, 3401, 3717, 3800, 3636, 3250, 2694, 2048, 1402, 846, 460, 296, 379, 695, 1202, 1828, 2485, 3080, 3530, 3772, 3772, 3530, 3080, 2485, 1828, 1202, 695, 379, 296, 460, 846, 1402 };
+
+    rms16.Init(&rms_object,
+        ELEMENTS_OF(input_3_times_60_hz),
+        1.0 / ELEMENTS_OF(input_3_times_60_hz)
+    );
+
+    for(uint16_t i = 0; i < rms_object.length; i++)
+    {
+        if(rms16.AddUnsigned(&rms_object, input_3_times_60_hz[i]))
+        {
+            rms = rms_object.rms;
+            rms_alternating = rms_object.rms_alternating;
+            mean = rms_object.mean;
+        }
+    }
+
+    // 1.65 V DC + 1 V * sqrt(2) * sin( t * 60 Hz * 2 * PI ) (@ 4096) with interference
+    int16_t input_3_times_60_hz_interference[] = { 1706, 3240, 2681, 3524, 3462, 3112, 3572, 3132, 1833, 1781, 1469, 148, 868, -197, 345, 594, 1259, 2749, 2953, 3663, 3913, 3562, 3213, 2753, 3070, 1581, 1785, 1143, 126, -108, 329, 1308, 1596, 2364, 1968, 2654, 3543, 3808, 3603, 4020, 3054, 2166, 1870, 760, 1241, 168, -139, 310, 1260, 1470 };
+
+    rms16.Init(&rms_object,
+        ELEMENTS_OF(input_3_times_60_hz_interference),
+        1.0 / ELEMENTS_OF(input_3_times_60_hz_interference)
+    );
+
+    for(uint16_t i = 0; i < rms_object.length; i++)
+    {
+        if(rms16.AddSigned(&rms_object, input_3_times_60_hz_interference[i]))
         {
             rms = rms_object.rms;
             rms_alternating = rms_object.rms_alternating;
