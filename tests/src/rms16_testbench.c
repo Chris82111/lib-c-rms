@@ -31,8 +31,6 @@ static uint8_t rms16_test_handler_test(void);
 static uint8_t rms16_test_calculation(void);
 static uint8_t rms16_test_max_length(void);
 
-void rms16_test(void);
-
 
 /*---------------------------------------------------------------------*
  *  private: functions
@@ -59,10 +57,8 @@ static void run_example(void)
         }
     }
 
-    // Solves `variable set but not used`
-    rms = rms_alternating;
-    rms_alternating = mean;
-    mean = rms;
+    // Suppresses the warning, variable is not used
+    if(0 == rms || 0 == rms_alternating || 0 == mean){ ; }
 }
 
 static uint8_t rms16_test_init_initialize(void)
@@ -345,7 +341,7 @@ void rms16_test(void)
     errors += rms16_test_init();
     errors += rms16_test_handler_test();
     errors += rms16_test_calculation();
-    //errors += rms16_test_max_length();
+    errors += rms16_test_max_length();
 
     rms16_test_sin_calculation();
 }

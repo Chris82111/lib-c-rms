@@ -87,6 +87,7 @@ typedef struct rms16_s
 
 }rms16_t;
 
+
 //! @brief Represents a simplified form of a class
 //!
 //! @details The global variable ::rms16 can be used to easily
@@ -98,6 +99,7 @@ struct rms16_sc
     void (*Clear) (rms16_t * object); ///< @see ::rms16_clear()
     void (*Init) (rms16_t * object, uint32_t length, double length_reciprocal); ///< @see ::rms16_init()
 };
+
 
 /*---------------------------------------------------------------------*
  *  public: extern variables
