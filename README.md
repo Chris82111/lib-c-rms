@@ -1,12 +1,18 @@
 # lib-c-rms
 
-The RMS calculation is object-oriented and designed to be called with each new
-measured value. The functions `rms16u_add()` or `rms16i_add()` can be called
-for this purpose. If all values are available, the handler stored in the
-function pointer `calculated` is called. After the handler has been called in
-the add function, this function is exited with the return value `true`.
+The RMS calculation is object-oriented and designed to be called with each new measured value. The functions `rms16.AddUnsigned()` or `rms16.AddSigned()` can be used for this purpose. As soon as all values are available, the calculation of the values `mean`, `rms_alternating` and `rms` starts. Then the handler stored in the function pointer `on_calculated` is called. After the handler has been called in the add function, this function is exited with the return value `true`.
 
-<img src="./readme_misc/signal_flow.svg" alt="The rms function signal plan." width="600"> 
+<picture>
+  <source
+    media="(prefers-color-scheme: dark)"
+    srcset="./docs/signal_flow_dark.svg" />
+  <img
+    alt="The rms function signal plan."
+    src="./docs/signal_flow.svg"
+    width="800" />
+</picture>
+
+## Example
 
 The code can be used as follows:
 
@@ -22,11 +28,14 @@ uint16_t input_data[] = { 2, 1 };
 
 for(uint8_t i = 0; i < rms_object.length; i++)
 {
-    if(rms16u_add(&rms_object, input_data[i]))
+    if(rms16.AddUnsigned(&rms_object, input_data[i]))
     {
         rms = rms_object.rms; // 1.5811388...
         rms_alternating = rms_object.rms_alternating; // 0.5
         mean = rms_object.mean; // 1.5
     }
 }
+
+// Suppresses the warning, variable is not used
+if(0 == rms || 0 == rms_alternating || 0 == mean){ ; }
 ```
